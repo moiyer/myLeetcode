@@ -14,7 +14,8 @@ You should return the indices: [0,9].
 */
 
 //2013/6/13 16:40:10
-
+//思路比较朴素，直接一个一个向后移动查看
+//使用map来看字符串是否在给定的串集合里，这点值得借鉴
 class Solution {
 public:
 
@@ -48,6 +49,7 @@ public:
 
         for(int i = 0; i < SLength - subLength * LSize; ++i)
         {
+            data.clear();
         	for(int j = 0; j < LSize; ++j)
         		data[L[j]] = 0;
         	if(check(S, L, i, data))

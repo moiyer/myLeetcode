@@ -29,6 +29,7 @@ For k = 3, you should return: 3->2->1->4->5
 
  //2013/6/10 22:40:22
  //每次将这一段的最后一个插入到头之前,写了很久，开始用递归写，总有错误
+ //对指针取址前先要判断指针是否为NULL
 class Solution {
 public:
 
@@ -63,7 +64,7 @@ public:
         		pHead = &(tp->next);
         		pTail = pHead;
         	}
-        	
+
         	if((*pTail)->next == NULL)break;
         	cur = &((*pTail)->next);
         }

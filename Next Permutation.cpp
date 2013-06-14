@@ -14,7 +14,7 @@ Here are some examples. Inputs are in the left-hand column and its corresponding
 
 //2013/6/14 14:09:48
 //基本思路是从后往前扫描，找到非递减的一个
-//这种循环的写法很好，代码很简洁
+//这种循环的写法很好，设置多个变量控制出口，代码很简洁
 class Solution {
 public:
     void nextPermutation(vector<int> &num) {

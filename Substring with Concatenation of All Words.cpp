@@ -16,21 +16,19 @@ You should return the indices: [0,9].
 //2013/6/13 16:40:10
 //思路比较朴素，直接一个一个向后移动查看
 //使用map来看字符串是否在给定的串集合里，这点值得借鉴
+//L里面可能有重复串
+//大数据会超时
 class Solution {
 public:
 
-	bool check(string S, std::vector<string> &L, int cur, map<string, int> &data)
+	bool check(string S, std::vector<string> &L, int cur, int subLength, int LSize, map<string, int> &data, map<string, int> &number)
 	{
-		int subLength = L[0].length();
-		int LSize = L.size();
-		map<string, int>::iterator it;
-
-		for(int i = 0; i < LSize; i += subLength)
+		for(int i = 0; i < LSize * subLength; i += subLength)
 		{
-			it = data.find(S.substr(cur + i, subLength));
-			if(it == data.end())return false;
-			if(it->second != 0)return false;
-			it->second++;
+            string w = S.substr(cur + i, subLength);
+			if(data.find(w) == data.end())return false;
+			++data[w];
+            if(data[w] > number[w])return false;
 		}
 		return true;
 	}
@@ -42,17 +40,20 @@ public:
         int LSize = L.size();
 
         map<string, int> data;
+        map<string, int> number;
         std::vector<int> result;
 
         if(SLength == 0 || LSize == 0)return result;
         int subLength = L[0].length();
 
-        for(int i = 0; i < SLength - subLength * LSize; ++i)
+        for(int j = 0; j < LSize; ++j)
+                ++number[L[j]];
+
+        for(int i = 0; i <= SLength - subLength * LSize; ++i)
         {
-            data.clear();
         	for(int j = 0; j < LSize; ++j)
         		data[L[j]] = 0;
-        	if(check(S, L, i, data))
+        	if(check(S, L, i, subLength, LSize, data, number))
         	{
         		result.push_back(i);
         	}
@@ -60,4 +61,36 @@ public:
 
         return result;
     }
+};
+
+//2013/6/14 14:03:38
+//别人的解法，思路和我的一样，但是大数据勉强不会超时
+class Solution {  
+public:  
+    vector<int> findSubstring(string S, vector<string> &L) {  
+        map<string, int> words;  
+        map<string, int> curStr;  
+        for(int i = 0; i < L.size(); ++i)  
+            ++words[L.at(i)];  
+        int N = L.size();  
+        vector<int> ret;  
+        if(N <= 0)   return ret;  
+        int M = L.at(0).size();  
+        for(int i = 0; i <= (int)S.size()-N*M; ++i)  
+        {  
+            curStr.clear();  
+            int j = 0;  
+            for(j = 0; j < N; ++j)  
+            {  
+                string w = S.substr(i+j*M, M);  
+                if(words.find(w) == words.end())  
+                    break;  
+                ++curStr[w];  
+                if(curStr[w] > words[w])  
+                    break;  
+            }  
+            if(j == N)  ret.push_back(i);  
+        }  
+        return ret;  
+    }  
 };

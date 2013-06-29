@@ -43,7 +43,7 @@ public:
 
 //2013/6/28 17:20:51
 //动态规划。其实上面的方法重复计算了很多次，所以考虑使用一个数组记录步数
-//还是大数据超时，不知道为什么，诡异
+//还是大数据超时
 class Solution {
 public:
 	int jump(int A[], int n) {
@@ -72,13 +72,17 @@ public:
 			else minStep[i] = curMin + 1;
 		}
 
-		return minStep[0];
+    int rt = minStep[0];
+    delete[] minStep;
+
+		return rt;
 	}
 };
 
 
 //2013/6/28 17:19:26
 //贪心法，别人写的。O(n)
+//从左往右记录能到达的最远位置i + A[i]
 class Solution {
 public:
     int jump(int A[], int n) {

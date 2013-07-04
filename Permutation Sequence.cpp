@@ -17,6 +17,7 @@ Note: Given n will be between 1 and 9 inclusive
 
 */
 //2013/7/3 20:18:29
+//有点水
 class Solution {
 public:
     string getPermutation(int n, int k) {
@@ -29,17 +30,24 @@ public:
 
         if(k > data[n] || k <= 0)return NULL;
 
-        string ret;
-        int cur_index = n;
+        char *result = new char[n + 1];
+        for(int i = 1; i <= n; ++i)
+            result[i] = i + '0';
+
+        int cur_index = 1;
         int cur_number = 0;
-        while(cur_index >= 1)
+        while(cur_index <= n)
         {
-        	cur_number = k / data[cur_index - 1] + 1;
-        	ret.push_back(cur_number + '0');
-        	k %= data[cur_index - 1];
-        	cur_index--;
+        	cur_number = k / data[n - cur_index];
+            swap(result[cur_index], result[cur_index + cur_number]);
+        	k %= data[n - cur_index];
+        	cur_index++;
         }
+
+        string ret(result + 1, n);
+        delete[] data;
+        delete[] result;
         
-        return ret;
+        return new ret;
     }
 };

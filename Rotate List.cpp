@@ -51,5 +51,6 @@ public:
 
     oList = p->next;
     p->next = NULL;  
+    return oList;
     }
 };

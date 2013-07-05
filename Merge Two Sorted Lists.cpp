@@ -21,7 +21,35 @@ public:
         if(l1 == NULL)return l2;
         if(l2 == NULL)return l1;
 
-        ListNode* head, *p1, *p2， *p;
-        ;
+        ListNode* head, *p;
+        if(l1->val < l2->val)
+        {
+        	head = l1;
+        	l1 = l1->next;
+        }else{
+        	head = l2;
+        	l2 = l2->next;
+        }
+
+        p = head;
+
+        while(l1 != NULL && l2 != NULL)
+        {
+        	if(l1->val < l2->val)
+        	{
+        		p->next = l1;
+        		p = l1;
+        		l1 = l1->next;
+        	}else{
+        		p->next = l2;
+        		p = l2;
+        		l2 = l2->next;
+        	}
+        }
+
+        if(l1 == NULL)p->next = l2;
+        if(l2 == NULL)p->next = l1;
+
+        return head;
     }
 };

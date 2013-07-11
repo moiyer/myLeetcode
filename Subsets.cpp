@@ -52,3 +52,18 @@ public:
         return ret;
     }
 };
+
+//2013/7/11 14:02:02
+//别人的解法
+vector<vector<int> > subsets(vector<int> &S) {
+    sort(S.begin(), S.end());
+    vector<vector<int> > v(1);
+    for(int i = 0; i < S.size(); ++i) {
+        int j = v.size();
+        while(j-- > 0) {
+            v.push_back(v[j]);
+            v.back().push_back(S[i]);
+        }
+    }
+    return v;
+}

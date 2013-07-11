@@ -39,6 +39,6 @@ public:
         	right++;
         }
 
-        return left + 1;
+        return left;
     }
 };

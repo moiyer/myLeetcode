@@ -12,7 +12,7 @@ Write a function to determine if a given target is in the array.
 //二分查找,有问题
 class Solution {
 public:
-	int findPivot(int A[], int left, int right)
+	int findPivot(int A[], int left, int right)//找到数组中的分割点，这里是后半部分的起始点
 	{
 		if(left >= right)return (left + right) >> 1;
 

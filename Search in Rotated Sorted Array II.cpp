@@ -9,20 +9,27 @@ Write a function to determine if a given target is in the array.
 
 */
 //2013/7/11 15:40:53
-//二分查找,有问题
+//二分查找，findPivot改了很久
 class Solution {
 public:
 	int findPivot(int A[], int left, int right)//找到数组中的分割点，这里是后半部分的起始点
 	{
 		if(left >= right)return (left + right) >> 1;
 
-		int mid = (left + right) >> 1;
+		int mid = left + ((right - left) >> 1);//防止left + right溢出
+
+        if(mid == left)      //把这种特殊的情况提出来
+            if(A[mid] < A[right])return mid;
+            else return right;
 
 		if(A[mid] > A[left])
-			return findPivot(A, mid + 1, right);
-		if(A[mid] < A[right])
-			return findPivot(A, left, mid);
-		return findPivot(A, left + 1, right);
+			return findPivot(A, mid, right);//注意从mid开始
+		else if(A[mid] < A[left])
+			return findPivot(A, left, mid);//注意包括了Mid
+		else {
+            while(left < mid && A[++left] == A[mid]);
+            return findPivot(A, left, right);
+        }
 	}
 
 	bool bSearch(int A[], int left, int right, int target)

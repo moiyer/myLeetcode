@@ -29,13 +29,13 @@ public:
         			--i;
         		}else
         		{
-        			A[i + j + 1] = A[j];
+        			A[i + j + 1] = B[j];
         			--j;
         		}
         	}
 
         while(j >= 0)
-        	A[j--] = B[j--];
+        	A[j] = B[j--];
 
         return;
     }

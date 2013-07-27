@@ -26,6 +26,27 @@ public:
     ListNode *reverseBetween(ListNode *head, int m, int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        
+        if(head == NULL || (m == 0 && n == 0)return head;
+        ListNode ** pCur = &head;
+        ListNode ** pm, **pn;
+
+        int i = 1;
+        for(; i < m; ++i)
+        	pCur = &((*pCur)->next);
+        pm = pCur;
+        for(; i < n; ++i)
+        	pCur = &((*pCur)->next);
+        pn = pCur;
+
+        ListNode *tp;
+        tp = *pn;
+        *pn = *pm;
+        *pm = tp;
+
+        *tp = (*pn)->next;
+        (*pn)->next = (*pm)->next;
+        (*pm)->next = *tp;
+
+        return head;
     }
 };

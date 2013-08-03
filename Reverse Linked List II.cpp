@@ -21,12 +21,13 @@ Given m, n satisfy the following condition:
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+ //水题,注意是反转链表,类似插入排序,指向指针的指针
 class Solution {
 public:
     ListNode *reverseBetween(ListNode *head, int m, int n) {
         // Start typing your C/C++ solution below
         // DO NOT write int main() function
-        if(head == NULL || (m == 0 && n == 0)return head;
+        if(head == NULL || (m == 0 && n == 0))return head;
         ListNode ** pCur = &head;
         ListNode ** pm, **pn;
 
@@ -34,18 +35,17 @@ public:
         for(; i < m; ++i)
         	pCur = &((*pCur)->next);
         pm = pCur;
-        for(; i < n; ++i)
-        	pCur = &((*pCur)->next);
         pn = pCur;
+        pn = &((*pn)->next);
 
         ListNode *tp;
-        tp = *pn;
-        *pn = *pm;
-        *pm = tp;
-
-        *tp = (*pn)->next;
-        (*pn)->next = (*pm)->next;
-        (*pm)->next = *tp;
+        for(; i < n; ++i)
+        {            
+            tp = *pn;
+            *pn = tp->next;
+            tp->next = *pm;
+            *pm = tp;
+        }
 
         return head;
     }

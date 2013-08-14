@@ -166,12 +166,121 @@ LLNode* mergeSort(LLNode *phead, int n)
 	return new_head;
 }
 
+//单链表节点交换
+//注意两个节点可能相邻
+void swapLL(LLNode **a, LLNode **b)
+{
+	if((*a)->next == *b)
+	{
+		LLNode* tp = *a;
+		*a = *b;
+		tp->next = (*b)->next;
+		(*a)->next = tp;
+		return;
+	}
+	if((*b)->next == *a)swapLL(b, a);
+	swap((*a)->next, (*b)->next);
+	swap(*a, *b);
+}
+
+//双链表节点交换
+//注意首尾和相邻
+typedef struct _DLNode
+{
+	int val;
+	struct _DLNode *left;
+	struct _DLNode *right;
+	_DLNode(int data)
+	{
+		val = data;
+		left = NULL;
+		right = NULL;
+	}
+}DLNode;
+
+DLNode* generateDL(int data[], int n)
+{
+	if(n <= 0)return NULL;
+	DLNode *head = new DLNode(data[0]);
+	DLNode *tail = head;
+	DLNode *tp = NULL;
+	for(int i = 1; i < n; ++i)
+	{
+		tp = new DLNode(data[i]);
+		tail->right = tp;
+		tp->left = tail;
+		tail = tp;
+	}
+	return head;
+}
+
+void printDL(DLNode* head)
+{
+	DLNode* cur = head;
+	DLNode* cur_r = head->right;
+	cout << cur->val;
+	if(cur_r == NULL)return;
+
+	cout << " == ";
+	while(cur_r != NULL && cur_r->left == cur)
+	{
+		cout << cur_r->val;
+		cur = cur->right;
+		cur_r = cur_r->right;
+		if(cur_r != NULL)cout << " == ";
+	}
+	cout << endl;
+}
+
+void swapDL(DLNode* a, DLNode* b)
+{
+	if(a == b)return;
+	if(a->right == b)
+	{
+		DLNode *tp = b->right;
+		if(a->left != NULL)
+		{
+			a->left->right = b;
+		}
+		a->right = b->right;
+		b->right = a;
+
+		if(tp != NULL)
+		{
+			tp->left = a;
+		}
+		b->left = a->left;
+		a->left = b;
+
+		return;
+	}else if(b->right == a)swapDL(b, a);
+
+	if(a->left != NULL && b->left != NULL)
+		swap(a->left->right, b->left->right);
+	else if(a->left == NULL)b->left->right = a;
+	else if(b->left == NULL)a->left->right = b;
+	
+	swap(a->left, b->left);
+	
+	if(a->right != NULL && b->right != NULL)
+		swap(a->right->left, b->right->left);
+	else if(a->right == NULL)b->right->left = a;
+	else if(b->right == NULL)a->right->left = b;
+	
+	swap(a->right, b->right);
+}
+
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	int data1[] = {4};
-	LLNode* head = generateLL(data1, 1);
+	int data1[] = {4, 5, 7};
+	LLNode* head = generateLL(data1, 3);
 	
+	swapLL(&head, &(head->next));
+	printLL(head);
+
+	cout << "end" << endl;
+
 	LLNode* cur = head;
 	while(cur->next != NULL)
 	{
@@ -182,8 +291,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	printLL(head);
 
 	cout << "merge-------" << endl;
-	mergeSort(head, 1);
+	mergeSort(head, 3);
 	printLL(head);
+
+	cout << "doubled linked list swap" << endl;
+	int data2[] = {1, 2, 3, 4};
+	DLNode* dhead = generateDL(data2, 4);
+	printDL(dhead);
+	swapDL(dhead->right, dhead->right->right->right);
+	printDL(dhead);//注意交换之后dhead不一定再指向链表头
 
 	system("pause");
 	return 0;

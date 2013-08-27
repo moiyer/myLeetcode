@@ -33,6 +33,7 @@ After calling your function, the tree should look like:
  *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
  * };
  */
+ //循环来做
 class Solution {
 public:
     void connect(TreeLinkNode *root) {
@@ -93,3 +94,26 @@ public:
         }
     }
 };
+
+//2013/8/27 19:43:04
+//别人写的，比较简洁
+// the link of level(i) is the queue of level(i+1)
+void connect(TreeLinkNode * n) {
+    while (n) {
+        TreeLinkNode * next = NULL; // the first node of next level
+        TreeLinkNode * prev = NULL; // previous node on the same level
+        for (; n; n=n->next) {
+            if (!next) next = n->left?n->left:n->right;
+
+            if (n->left) {
+                if (prev) prev->next = n->left;
+                prev = n->left;
+            }
+            if (n->right) {
+                if (prev) prev->next = n->right;
+                prev = n->right;
+            }
+        }
+        n = next; // turn to next level
+    }
+}

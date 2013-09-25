@@ -44,3 +44,98 @@ public:
     	return ret;    
     }
 };
+
+//八皇后问题，循环实现
+﻿/*N皇后问题的非递归实现1*/
+#include <iostream>
+
+const int N=13;
+void print();
+bool can_place(int column,int row);
+int cnt;
+int a[N];
+inline void place(int column,int row)
+{
+	a[column]=row;
+}
+
+inline int abs(int x)
+{
+	return x<0?-x:x;
+}
+
+void EightQueens(int column)
+{
+	int i=0,j=0;
+	while(j<column)
+		while(i<column)
+		{
+			if(can_place(j,i))
+			{
+				place(j,i);
+				if(j==column-1)
+				{
+					print();
+					if(j)
+						--j;
+					if(a[j]==column-1)
+						if(j)
+							--j;
+						else
+							return;
+					i=a[j]+1;
+					break;
+				}
+				else
+				{
+					i=0;
+					++j;
+					continue;
+				}
+			}
+			else   //j不可能为0
+			{
+				if(i==column-1)
+				{
+					--j;
+					if(a[j]==column-1)
+						if(j)
+							--j;
+						else
+							return;
+					i=a[j]+1;
+					break;
+				}
+				else
+				{
+					++i;
+					continue;
+				}
+			}
+		}
+
+}
+
+void print()
+{
+	++cnt;
+}
+
+bool can_place(int column,int row)
+{
+	for(int j=0;j!=column;++j)
+	{
+		if(a[j]==row)
+			return false;
+		if((column-j)==abs(a[j]-row))
+			return false;
+	}
+	return true;
+}
+
+int main()
+{
+	EightQueens(N);
+	std::cout<<cnt<<std::endl;
+}
+

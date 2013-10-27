@@ -64,3 +64,37 @@ public:
         return ret;
     }
 };
+
+
+
+
+
+class Solution {
+public:
+    void dfs(vector<vector<int> > &ret, vector<int> &cur, vector<int> &S, int index)
+    {
+        ret.push_back(cur);
+        
+        for(int i = index; i < S.size(); ++i)
+        {
+            if(i == index || (i != index && S[i] != S[index]))
+            {
+                cur.push_back(S[i]);
+                dfs(ret, cur, S, i + 1);
+                cur.pop_back();
+            }
+            while(i + 1 < S.size() && S[i] == S[i + 1])++i;
+        }
+    }
+    vector<vector<int> > subsetsWithDup(vector<int> &S) {
+        // Note: The Solution object is instantiated only once and is reused by each test case.
+        vector<vector<int> > ret;
+        vector<int> cur;
+        int size = S.size();
+        
+        sort(S.begin(), S.end());
+        dfs(ret, cur, S, 0);
+        
+        return ret;
+    }
+};
